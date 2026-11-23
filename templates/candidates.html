@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Voice Voting | VoteX</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f5ff;
+            color: #1e293b;
+        }
+
+        header {
+            background: #123b75;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        header span {
+            color: #93c5fd;
+        }
+
+        .back {
+            background: white;
+            color: #123b75;
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            color: #123b75;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .voice-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #dbe5f5;
+            text-align: center;
+            margin-bottom: 35px;
+            border-top: 5px solid #2563eb;
+        }
+
+        .mic-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .voice-panel h3 {
+            color: #123b75;
+            margin-bottom: 10px;
+        }
+
+        .voice-panel p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .voice-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .voice-btn {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .voice-btn:hover {
+            background: #123b75;
+        }
+
+        .stop-btn {
+            background: #475569;
+        }
+
+        .status {
+            background: #eff6ff;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 18px;
+            color: #123b75;
+            min-height: 45px;
+            overflow-wrap: anywhere;
+        }
+
+        .candidate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .candidate-card {
+            background: white;
+            padding: 26px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #dbe5f5;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .candidate-card.selected {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            background: #dbeafe;
+            color: #123b75;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            margin-bottom: 18px;
+        }
+
+        .candidate-card h3 {
+            margin-bottom: 10px;
+            color: #123b75;
+        }
+
+        .party {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .select-btn,
+        .vote-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .select-btn:hover,
+        .vote-btn:hover {
+            background: #123b75;
+        }
+
+        .vote-btn {
+            background: #15803d;
+        }
+
+        .vote-btn:hover {
+            background: #166534;
+        }
+
+        .selected-label {
+            display: none;
+            color: #15803d;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        .candidate-card.selected .selected-label {
+            display: block;
+        }
+
+        .confirm-panel {
+            display: none;
+            margin-top: 28px;
+            background: white;
+            border: 2px solid #16a34a;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .confirm-panel h3 {
+            color: #15803d;
+            margin-bottom: 12px;
+        }
+
+        .confirm-panel p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .cancel-btn {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #64748b;
+            color: white;
+            cursor: pointer;
+            margin: 8px;
+        }
+
+        .message {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            color: #64748b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .voice-panel {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Vote<span>X</span> 🎙️</h1>
+    <a href="/dashboard" class="back">Back to Dashboard</a>
+</header>
+{% if elections and not selected_election %}
+
+    <div class="message">
+        <h2>Available Elections</h2>
+
+        {% for election in elections %}
+            <div style="background:#eff6ff; padding:18px; margin:15px 0; border-radius:10px;">
+
+                <h3>{{ election.election_name }}</h3>
+
+                <p>{{ election.description }}</p>
+
+                <p>
+                    Start: {{ election.start_date }}
+                    <br>
+                    End: {{ election.end_date }}
+                </p>
+
+                <a href="/candidates?election_id={{ election.id }}"
+                   class="back"
+                   style="display:inline-block; margin-top:10px; background:#2563eb; color:white;">
+                    Participate
+                </a>
+
+            </div>
+        {% endfor %}
+    </div>
+
+{% elif not elections %}
+
+    <div class="message">
+        <h3>No active elections available right now.</h3>
+        <p>Please check again when an election begins.</p>
+    </div>
+
+{% endif %}
+<div class="container">
+
+    <h2>Voice-Enabled Voting System 🗳️</h2>
+
+    <p class="subtitle">
+        Explore the candidates, use voice commands to select your preferred
+        candidate, and confirm your choice before submitting your vote.
+    </p>
+
+    <div class="voice-panel">
+        <div class="mic-icon">🎙️</div>
+
+        <h3>Meet Your Voice Assistant</h3>
+
+        <p>
+            Click Start Voice Assistant and say
+            <b>"Read candidates"</b> or
+            <b>"Select Aarav Sharma"</b>.
+        </p>
+
+        <div class="voice-buttons">
+            <button type="button" class="voice-btn" id="startVoice">
+                🎤 Start Voice Assistant
+            </button>
+
+            <button type="button" class="voice-btn" id="readCandidates">
+                🔊 Read Candidates
+            </button>
+
+            <button type="button" class="voice-btn stop-btn" id="stopVoice">
+                ⏹ Stop
+            </button>
+        </div>
+
+        <div class="status" id="voiceStatus" aria-live="polite">
+            Voice assistant is ready. Press Start Voice Assistant.
+        </div>
+    </div>
+
+   {% if has_voted %}
+
+    <div class="message">
+        <h3>You have already voted. ✅</h3>
+        <p>Thank you for participating in this election.</p>
+        <p>Your account cannot submit another vote.</p>
+    </div>
+
+{% endif %}
+
+{% if candidates and not has_voted %}
+
+        <h2>Available Candidates 👥</h2>
+
+        <p class="subtitle">
+            You can select a candidate by clicking the button or using your voice.
+        </p>
+
+        <div class="candidate-grid">
+
+            {% for candidate in candidates %}
+
+                <div class="candidate-card"
+                     data-id="{{ candidate.id }}"
+                     data-name="{{ candidate.name }}"
+                     data-party="{{ candidate.party }}">
+
+                    <div class="avatar">👤</div>
+
+                    <h3>{{ candidate.name }}</h3>
+
+                    <p class="party">
+                        Party: {{ candidate.party }}
+                    </p>
+
+                    <div class="selected-label">
+                        ✓ Selected
+                    </div>
+
+                    <button type="button" class="select-btn">
+                        Select Candidate
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="confirm-panel" id="confirmPanel">
+
+            <h3>Confirm Your Candidate</h3>
+
+            <p id="confirmText"></p>
+
+            <p>
+                Please check the candidate's name carefully.
+                Your vote cannot be changed after submission.
+            </p>
+
+            <form action="/vote" method="POST" id="voteForm">
+                <input type="hidden"
+       name="election_id"
+       value="{{ selected_election.id }}">
+
+                <input type="hidden"
+                       name="candidate_id"
+                       id="candidateId"
+                       value="">
+
+                <button type="submit" class="vote-btn">
+                    ✅ Confirm and Submit Vote
+                </button>
+
+            </form>
+
+            <button type="button" class="cancel-btn" id="cancelSelection">
+                Cancel Selection
+            </button>
+
+            <button type="button" class="voice-btn" id="confirmByVoice">
+                🎙️ Say "Confirm Vote"
+            </button>
+
+        </div>
+
+    {% elif not has_voted %}
+
+        <div class="message">
+            <h3>No candidates available yet.</h3>
+            <p>Please add candidates to the database first.</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+<footer>
+    © 2026 VoteX | Online Voting System — Educational Project
+</footer>
+
+<script>
+    const statusBox = document.getElementById("voiceStatus");
+    const startButton = document.getElementById("startVoice");
+    const readButton = document.getElementById("readCandidates");
+    const stopButton = document.getElementById("stopVoice");
+
+    const cards = Array.from(
+        document.querySelectorAll(".candidate-card")
+    );
+
+    const confirmPanel = document.getElementById("confirmPanel");
+    const confirmText = document.getElementById("confirmText");
+    const candidateIdInput = document.getElementById("candidateId");
+    const cancelButton = document.getElementById("cancelSelection");
+    const confirmVoiceButton = document.getElementById("confirmByVoice");
+    const voteForm = document.getElementById("voteForm");
+
+    let selectedCandidate = null;
+    let recognition = null;
+    let waitingForConfirmation = false;
+
+    function setStatus(message) {
+        statusBox.textContent = message;
+    }
+
+    function speak(message) {
+        if (!("speechSynthesis" in window)) {
+            setStatus(message);
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+
+        const speech = new SpeechSynthesisUtterance(message);
+        speech.lang = "en-IN";
+        speech.rate = 0.95;
+
+        speech.onstart = function () {
+            setStatus(message);
+        };
+
+        window.speechSynthesis.speak(speech);
+    }
+
+    function selectCandidate(card) {
+        if (!card || cards.length === 0) {
+            return;
+        }
+
+        selectedCandidate = card;
+
+        cards.forEach(function (item) {
+            item.classList.toggle("selected", item === card);
+        });
+
+        candidateIdInput.value = card.dataset.id;
+
+        confirmText.textContent =
+            "You selected " + card.dataset.name +
+            " from " + card.dataset.party + ".";
+
+        confirmPanel.style.display = "block";
+        waitingForConfirmation = true;
+
+        speak(
+            "You selected " + card.dataset.name +
+            " from " + card.dataset.party +
+            ". Please check your selection. " +
+            "Say Confirm Vote or use the confirmation button."
+        );
+
+        confirmPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+    cards.forEach(function (card) {
+        card.querySelector(".select-btn").addEventListener(
+            "click",
+            function () {
+                selectCandidate(card);
+            }
+        );
+    });
+
+    function readCandidateList() {
+        if (cards.length === 0) {
+            speak("There are no candidates available.");
+            return;
+        }
+
+        const names = cards.map(function (card) {
+            return card.dataset.name +
+                " from " + card.dataset.party;
+        });
+
+        speak("The available candidates are: " + names.join(". "));
+    }
+
+    readButton.addEventListener("click", readCandidateList);
+
+    cancelButton?.addEventListener("click", function () {
+        selectedCandidate = null;
+        waitingForConfirmation = false;
+        candidateIdInput.value = "";
+        confirmPanel.style.display = "none";
+
+        cards.forEach(function (card) {
+            card.classList.remove("selected");
+        });
+
+        speak("Selection cancelled. You can select another candidate.");
+    });
+
+    function processVoiceCommand(transcript) {
+        const command = transcript.toLowerCase().trim();
+
+        setStatus("You said: " + transcript);
+
+        if (
+            command.includes("read candidates") ||
+            command.includes("list candidates") ||
+            command.includes("candidate names")
+        ) {
+            readCandidateList();
+            return;
+        }
+
+        if (
+            command.includes("cancel selection") ||
+            command.includes("cancel vote")
+        ) {
+            if (cancelButton) {
+                cancelButton.click();
+            }
+            return;
+        }
+
+        if (
+            command.includes("confirm vote") ||
+            command.includes("submit my vote")
+        ) {
+            if (waitingForConfirmation && selectedCandidate) {
+                setStatus(
+                    "Voice confirmation received. " +
+                    "Please press Confirm and Submit Vote to cast your vote."
+                );
+
+                speak(
+                    "Your selection is ready. " +
+                    "Please press the Confirm and Submit Vote button " +
+                    "to submit your vote."
+                );
+            } else {
+                speak("Please select a candidate first.");
+            }
+            return;
+        }
+
+        if (command.includes("select ")) {
+            const requestedName = command
+                .split("select ")
+                .slice(1)
+                .join("select ")
+                .trim();
+
+            const matchingCard = cards.find(function (card) {
+    const candidateName = card.dataset.name.toLowerCase();
+
+    return (
+        candidateName === requestedName ||
+        candidateName.includes(requestedName) ||
+        requestedName.includes(candidateName)
+    );
+});
+
+            if (matchingCard) {
+                selectCandidate(matchingCard);
+            } else {
+                speak(
+                    "I could not find an exact candidate name. " +
+                    "Please say the full candidate name as shown on screen."
+                );
+            }
+            return;
+        }
+
+        speak(
+            "Sorry, I did not understand. " +
+            "Try saying Read Candidates or Select followed by the candidate name."
+        );
+    }
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = "en-IN";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = function (event) {
+            const transcript =
+                event.results[0][0].transcript;
+
+            processVoiceCommand(transcript);
+        };
+
+        recognition.onerror = function (event) {
+            if (event.error === "not-allowed") {
+                setStatus(
+                    "Microphone permission denied. Allow microphone access in Chrome."
+                );
+            } else {
+                setStatus(
+                    "Voice recognition issue: " + event.error +
+                    ". You can still select candidates using the buttons."
+                );
+            }
+        };
+
+        recognition.onend = function () {
+            startButton.textContent = "🎤 Start Voice Assistant";
+        };
+
+        startButton.addEventListener("click", function () {
+            try {
+                recognition.start();
+                startButton.textContent = "🎙️ Listening...";
+                setStatus("Listening... Please speak your command.");
+            } catch (error) {
+                setStatus(
+                    "Voice assistant is busy. Please try again in a moment."
+                );
+            }
+        });
+
+    } else {
+        startButton.addEventListener("click", function () {
+            speak(
+                "Speech recognition is not supported by this browser. " +
+                "Please use the candidate buttons."
+            );
+        });
+
+        setStatus(
+            "Voice recognition is not supported here. " +
+            "Try the latest Google Chrome."
+        );
+    }
+
+    stopButton.addEventListener("click", function () {
+        if (recognition) {
+            recognition.abort();
+        }
+
+        if ("speechSynthesis" in window) {
+            window.speechSynthesis.cancel();
+        }
+
+        startButton.textContent = "🎤 Start Voice Assistant";
+        setStatus("Voice assistant stopped.");
+    });
+
+    confirmVoiceButton?.addEventListener("click", function () {
+        if (!selectedCandidate) {
+            speak("Please select a candidate first.");
+            return;
+        }
+
+        if (recognition) {
+            speak(
+                "Please press Confirm and Submit Vote to cast your vote."
+            );
+        } else {
+            speak("Voice recognition is unavailable. Use the submit button.");
+        }
+    });
+
+    voteForm?.addEventListener("submit", function (event) {
+        if (!selectedCandidate || !candidateIdInput.value) {
+            event.preventDefault();
+            speak("Please select a candidate before submitting your vote.");
+            return;
+        }
+
+        const approved = window.confirm(
+            "Final confirmation: Submit your vote for " +
+            selectedCandidate.dataset.name + "?"
+        );
+
+        if (!approved) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>

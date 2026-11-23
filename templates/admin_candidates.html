@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Candidates | VoteX</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(120deg, #123b75, #2563a6);
+            color: white;
+            padding: 22px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(18,59,117,0.2);
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            background: #dc2626;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            background: #b91c1c;
+        }
+
+        .container {
+            max-width: 1250px;
+            width: 92%;
+            margin: 40px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h2 {
+            color: #123b75;
+            font-size: 27px;
+            margin-bottom: 9px;
+        }
+
+        .page-heading p {
+            color: #64748b;
+        }
+
+        .form-card, .table-card {
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .form-card h3, .table-card h3 {
+            color: #123b75;
+            margin-bottom: 22px;
+            font-size: 21px;
+        }
+
+        .add-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            border-color: #2563a6;
+            box-shadow: 0 0 0 3px rgba(37,99,166,0.1);
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 11px 17px;
+            border-radius: 7px;
+            color: white;
+            background: #2563a6;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #123b75;
+        }
+
+        .add-button {
+            background: #15803d;
+        }
+
+        .add-button:hover {
+            background: #166534;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #2463a6;
+            color: white;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f1f5f9;
+        }
+
+        td input {
+            min-width: 120px;
+            margin-bottom: 7px;
+        }
+
+        .update-button {
+            background: #2563a6;
+        }
+
+        .delete-button {
+            background: #dc2626;
+        }
+
+        .delete-button:hover {
+            background: #b91c1c;
+        }
+
+        .cannot-delete {
+            color: #dc2626;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .back {
+            display: inline-block;
+            margin: 5px 0 30px;
+            background: #123b75;
+            color: white;
+            padding: 12px 22px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #2563a6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 21px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .form-card, .table-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>VoteX | Manage Candidates</h1>
+    <a href="/admin-logout">Logout</a>
+</header>
+
+<div class="container">
+
+    <div class="page-heading">
+        <h2>Candidate Management</h2>
+        <p>Add, update and manage candidates participating in different elections.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h3>➕ Add New Candidate</h3>
+
+        <form method="POST" action="/admin-add-candidate" class="add-form">
+
+            <input type="text" name="name"
+                   placeholder="Candidate Name" required>
+
+            <input type="text" name="party"
+                   placeholder="Party Name" required>
+
+            <select name="election_id" required>
+                <option value="">Select Election</option>
+
+                {% for election in elections %}
+                <option value="{{ election.id }}">
+                    {{ election.election_name }}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <button type="submit" class="add-button">
+                Add Candidate
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="table-card">
+
+        <h3>📋 Registered Candidates</h3>
+
+        <div class="table-wrapper">
+
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Candidate Name</th>
+                    <th>Party</th>
+                    <th>Total Votes</th>
+                    <th>Election</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for candidate in candidates %}
+                <tr>
+                    <td>{{ candidate.id }}</td>
+
+                    <td>
+                        <form method="POST"
+                              action="/admin-update-candidate/{{ candidate.id }}">
+
+                            <input type="text" name="name"
+                                   value="{{ candidate.name }}" required>
+
+                            <input type="text" name="party"
+                                   value="{{ candidate.party }}" required>
+
+                            <button type="submit" class="update-button">
+                                Update
+                            </button>
+
+                        </form>
+                    </td>
+
+                    <td>{{ candidate.party }}</td>
+
+                    <td>{{ candidate.votes }}</td>
+
+                    <td>{{ candidate.election_name or 'Not Assigned' }}</td>
+
+                    <td>
+                        {% if candidate.votes == 0 %}
+
+                        <form method="POST"
+                              action="/admin-delete-candidate/{{ candidate.id }}"
+                              onsubmit="return confirm('Are you sure you want to delete this candidate?');">
+
+                            <button type="submit" class="delete-button">
+                                Delete
+                            </button>
+
+                        </form>
+
+                        {% else %}
+
+                        <span class="cannot-delete">Cannot Delete</span>
+
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <a href="/admin-dashboard" class="back">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+<footer>
+    © 2026 VoteX Online Voting System
+</footer>
+
+</body>
+</html>

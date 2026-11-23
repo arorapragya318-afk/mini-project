@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VoteX | Online Voting System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f0f5ff;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #173b70;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 22px;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #b9d5ff;
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 75px auto;
+            padding: 30px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #173b70;
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #173b70;
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            color: #526176;
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 25px;
+            margin: 7px 8px 7px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .primary {
+            background: #173b70;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #28569a;
+            transform: translateY(-2px);
+        }
+
+        .secondary {
+            background: white;
+            color: #173b70;
+            border: 2px solid #173b70;
+        }
+
+        .secondary:hover {
+            background: #e5efff;
+            transform: translateY(-2px);
+        }
+
+        .hero-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 420px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(23, 59, 112, 0.12);
+        }
+
+        .vote-icon {
+            font-size: 75px;
+            margin-bottom: 20px;
+        }
+
+        .hero-card h2 {
+            color: #173b70;
+            margin-bottom: 15px;
+        }
+
+        .hero-card p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .features {
+            max-width: 1100px;
+            margin: 30px auto 70px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card h3 {
+            color: #173b70;
+            margin: 12px 0;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #173b70;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .hero {
+                margin: 35px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">VoteX</div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/register">Register</a>
+            <a href="/login">Login</a>
+            <a href="/admin-login">Admin</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="tag">ONLINE COLLEGE VOTING PLATFORM</span>
+
+            <h1>Your Vote.<br>Your Voice.<br>Your Choice.</h1>
+
+            <p>
+                Welcome to VoteX, an online voting platform designed
+                to make college elections simple and accessible.
+                Register as a voter, log in, and participate in
+                authorized college elections.
+            </p>
+
+            <a href="/register" class="btn primary">Get Started</a>
+
+            <a href="/login" class="btn secondary">Voter Login</a>
+
+        </div>
+
+        <div class="hero-card">
+
+            <div class="vote-icon">🗳️</div>
+
+            <h2>Welcome to VoteX</h2>
+
+            <p>
+                A digital voting experience that helps simplify
+                the election process and makes vote counting easier.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="features">
+
+        <div class="feature-card">
+            <div class="vote-icon">🔐</div>
+            <h3>Voter Authentication</h3>
+            <p>Voters can register and log in to access the voting platform.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="vote-icon">☑️</div>
+            <h3>One Vote Per Election</h3>
+            <p>The system prevents a voter from voting more than once in the same election.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="vote-icon">📊</div>
+            <h3>Election Results</h3>
+            <p>View election results with candidate-wise vote counts and percentages.</p>
+        </div>
+
+    </section>
+
+    <footer>
+        © 2026 VoteX | College Election Project | Learning Prototype
+    </footer>
+
+</body>
+
+</html>

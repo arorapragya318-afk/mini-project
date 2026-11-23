@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Records | VoteX</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(120deg, #123b75, #2563a6);
+            color: white;
+            padding: 22px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(18,59,117,0.2);
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            background: #dc2626;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        header a:hover {
+            background: #b91c1c;
+        }
+
+        .container {
+            max-width: 1150px;
+            width: 92%;
+            margin: 40px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+        .page-heading h2 {
+            color: #123b75;
+            font-size: 27px;
+            margin-bottom: 9px;
+        }
+
+        .page-heading p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .table-card {
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .table-card h3 {
+            color: #123b75;
+            font-size: 21px;
+            margin-bottom: 22px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 17px 14px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #2463a6;
+            color: white;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f1f5f9;
+        }
+
+        .voted {
+            color: #15803d;
+            font-weight: bold;
+            background: #dcfce7;
+            padding: 7px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 13px;
+        }
+
+        .not-voted {
+            color: #dc2626;
+            font-weight: bold;
+            background: #fee2e2;
+            padding: 7px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 13px;
+        }
+
+        .back {
+            display: inline-block;
+            margin: 25px 0 30px;
+            background: #123b75;
+            color: white;
+            padding: 12px 22px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back:hover {
+            background: #2563a6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 21px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .table-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>VoteX | Voter Records</h1>
+    <a href="/admin-logout">Logout</a>
+</header>
+
+<div class="container">
+
+    <div class="page-heading">
+        <h2>Registered Voters</h2>
+        <p>View registered voters and their voting status in the system.</p>
+    </div>
+
+    <div class="table-card">
+
+        <h3>👥 Voter Information</h3>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>Voter ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Voting Status</th>
+                </tr>
+
+                {% for voter in voters %}
+
+                <tr>
+                    <td>{{ voter.id }}</td>
+
+                    <td>{{ voter.full_name }}</td>
+
+                    <td>{{ voter.email }}</td>
+
+                    {% if voter.has_voted %}
+                    <td><span class="voted">Voted</span></td>
+                    {% else %}
+                    <td><span class="not-voted">Not Voted</span></td>
+                    {% endif %}
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <a href="/admin-dashboard" class="back">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+<footer>
+    © 2026 VoteX Online Voting System
+</footer>
+
+</body>
+</html>

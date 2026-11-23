@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter Dashboard | VoteX</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f6fc;
+            color: #1e293b;
+        }
+
+        header {
+            background: linear-gradient(120deg, #102d59, #1e4d91);
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        header h1 {
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        header span {
+            color: #60c5ff;
+        }
+
+        .logout {
+            background: white;
+            color: #163d73;
+            padding: 11px 23px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout:hover {
+            background: #dbeafe;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 45px auto;
+            padding: 0 22px;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #ffffff, #eaf2ff);
+            padding: 38px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(30, 64, 175, 0.08);
+            margin-bottom: 38px;
+            border-left: 6px solid #2563eb;
+        }
+
+        .welcome h2 {
+            color: #123b75;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .welcome p {
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .section-heading {
+            color: #163d73;
+            font-size: 23px;
+            margin-bottom: 22px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 32px 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border: 1px solid #e5eaf3;
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 28px rgba(37,99,235,0.13);
+        }
+
+        .icon {
+            width: 65px;
+            height: 65px;
+            background: #e8f1ff;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin-bottom: 22px;
+        }
+
+        .card h3 {
+            color: #163d73;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+            min-height: 70px;
+            margin-bottom: 22px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #163d73;
+        }
+
+        .info {
+            margin-top: 35px;
+            padding: 20px 25px;
+            background: #e8f1ff;
+            border-radius: 12px;
+            color: #31547f;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 28px 15px;
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 45px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media(max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                margin: 28px auto;
+            }
+
+            .welcome {
+                padding: 25px;
+            }
+
+            .welcome h2 {
+                font-size: 23px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Vote<span>X</span></h1>
+    <a href="/logout" class="logout">Logout</a>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Welcome, {{ name }}! 👋</h2>
+
+        <p>
+            Welcome to your VoteX voter dashboard.
+            Participate in elections, explore candidates
+            and make your voice count.
+        </p>
+    </div>
+
+    <h2 class="section-heading">Your Dashboard</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="icon">👥</div>
+
+            <h3>View Candidates</h3>
+
+            <p>
+                Explore candidates participating in
+                different elections and learn about
+                their parties.
+            </p>
+
+            <a href="/candidates" class="btn">
+                View Candidates →
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="icon">🗳️</div>
+
+            <h3>Cast Your Vote</h3>
+
+            <p>
+                Participate in active elections and
+                select your preferred candidate.
+                Your vote matters!
+            </p>
+
+            <a href="/candidates" class="btn">
+                Vote Now →
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="icon">📊</div>
+
+            <h3>Election Results</h3>
+
+            <p>
+                View election results and check
+                candidate vote counts and
+                voting percentages.
+            </p>
+
+            <a href="/results" class="btn">
+                View Results →
+            </a>
+        </div>
+
+    </div>
+
+    <div class="info">
+        <strong>🔒 Secure Voting:</strong>
+        Every voter can cast only one vote per election.
+        VoteX is designed to support transparent and
+        responsible digital participation.
+    </div>
+
+</div>
+
+<footer>
+    © 2026 VoteX | Online Voting System
+    <br><br>
+    Secure • Transparent • Digital
+</footer>
+
+</body>
+</html>
